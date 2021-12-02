@@ -1,5 +1,5 @@
 def sliding_window_sum(lst, window=3):
-    return [sum(lst[i:i+window]) for i in range(len(lst)-window+1)]
+      return [sum(lst[i:i+window]) for i in range(len(lst)-window+1)]
 
 def count_increase(lst):
       return sum([lst[i+1] - lst[i] > 0 for i in range(len(lst)-1)])
