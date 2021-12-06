@@ -1,13 +1,8 @@
 from functools import cache
 
-@cache
-def _final_number(age, final_time):
-      if final_time <= age:
-            return 1
-      return _final_number(6, final_time - age - 1) + _final_number(8, final_time - age - 1)
-
-def final_number(ages, final_time=80):
-      return sum([_final_number(age, final_time) for age in ages])
+def final_number(remaining_times, final_time=80):
+      number = cache(lambda rem, time: 1 if time <= rem else number(6, time-rem-1) + number(8, time-rem-1))
+      return sum([number(rem, final_time) for rem in remaining_times])
 
 file_names = ['test_input', 'main_input']
 folder_name = './Day06/'
