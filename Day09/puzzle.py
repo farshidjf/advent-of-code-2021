@@ -1,4 +1,4 @@
-def neighbors(i:int , j: int) -> list[tuple[int,int]]:
+def neighbors(i: int, j: int) -> list[tuple[int, int]]:
       cap = lambda i: i if i >= 0 else 1e10
       neighbors = []
       for di, dj in [(0,1),(0,-1),(1,0),(-1,0)]:
@@ -16,7 +16,7 @@ def find_mins() -> list[tuple[int, int]]:
                         mins.append((i, j))
       return mins
 
-def extend_basin(basin:set[tuple[int, int]], i:int, j:int) -> set[tuple[int, int]]:
+def extend_basin(basin: set[tuple[int, int]], i: int, j: int) -> set[tuple[int, int]]:
       basin.add((i, j))
       for ni, nj in neighbors(i, j):
             if (ni, nj) not in basin and heights[ni][nj] != 9:
