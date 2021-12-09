@@ -1,4 +1,4 @@
-def neighbors(i, j):
+def neighbors(i:int , j: int) -> list[tuple[int,int]]:
       cap = lambda i: i if i >= 0 else 1e10
       neighbors = []
       for di, dj in [(0,1),(0,-1),(1,0),(-1,0)]:
@@ -8,7 +8,7 @@ def neighbors(i, j):
             except: pass
       return neighbors
 
-def find_mins():
+def find_mins() -> list[tuple[int, int]]:
       mins = []
       for i, row in enumerate(heights):
             for j, h in enumerate(row):
@@ -16,22 +16,22 @@ def find_mins():
                         mins.append((i, j))
       return mins
 
-def extend_basin(basin, i, j):
+def extend_basin(basin:set[tuple[int, int]], i:int, j:int) -> set[tuple[int, int]]:
       basin.add((i, j))
       for ni, nj in neighbors(i, j):
             if (ni, nj) not in basin and heights[ni][nj] != 9:
                   extend_basin(basin, ni, nj)
       return basin
 
-def puzzle1():
+def puzzle1() -> int:
       return sum([heights[i][j]+1 for i, j in find_mins()])
 
-def puzzle2():
-      bsize = [len(extend_basin(set(), i, j)) for i, j in find_mins()]
+def puzzle2() -> int:
+      basin_sizes = [len(extend_basin(set(), i, j)) for i, j in find_mins()]
       ret = 1
       for _ in range(3):
-            ret *= max(bsize)
-            bsize.remove(max(bsize))
+            ret *= max(basin_sizes)
+            basin_sizes.remove(max(basin_sizes))
       return ret
 
 file_names = ['test_input', 'main_input']
