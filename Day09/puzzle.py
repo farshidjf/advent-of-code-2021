@@ -1,4 +1,3 @@
-
 def neighbors(i, j):
       cap = lambda i: i if i >= 0 else 1e10
       neighbors = []
@@ -17,26 +16,18 @@ def find_mins():
                         mins.append((i, j))
       return mins
 
-def basin_size(i, j):
-      basin = {(i, j): False} # becomes True when the neighbors are examined
-      def _expand(ii, jj):
-            for ni, nj in neighbors(ii, jj):
-                  if (ni, nj) not in basin.keys() and heights[ni][nj] != 9:
-                        basin[(ni, nj)] = False
-            basin[(ii, jj)] = True
-
-      while not all(basin.values()):
-            for (ii, jj), seen in basin.copy().items():
-                  if not seen:
-                        _expand(ii, jj)
-      
-      return len(basin)        
+def extend_basin(basin, i, j):
+      basin.add((i, j))
+      for ni, nj in neighbors(i, j):
+            if (ni, nj) not in basin and heights[ni][nj] != 9:
+                  extend_basin(basin, ni, nj)
+      return basin
 
 def puzzle1():
       return sum([heights[i][j]+1 for i, j in find_mins()])
 
 def puzzle2():
-      bsize = [basin_size(i, j) for i, j in find_mins()]
+      bsize = [len(extend_basin(set(), i, j)) for i, j in find_mins()]
       ret = 1
       for _ in range(3):
             ret *= max(bsize)
