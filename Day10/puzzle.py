@@ -3,6 +3,8 @@ from numpy import median
 open_char = ['(', '[', '{', '<']
 close_char = [')', ']', '}', '>']
 match = {o: c for o, c in zip(open_char, close_char)}
+mistake_points = {c: p for c, p in zip(close_char, [3,57,1197,25137])}
+incomplete_points = {c: p for c, p in zip(open_char, range(1,5))}
 
 def parse(chuck: str, 
           unmatched: list[str], 
@@ -14,8 +16,6 @@ def parse(chuck: str,
       return parse(chuck[1:], unmatched[:-1], matched + [(unmatched[-1], chuck[0])])
 
 is_valid_match = lambda o, c: match[o] == c
-mistake_points = {c: p for c, p in zip(close_char, [3,57,1197,25137])}
-incomplete_points = {c: p for c, p in zip(open_char, range(1,5))}
 bad_chuck_points = lambda pairs: sum([mistake_points[c] for o, c in pairs if not is_valid_match(o, c)])
 is_valid = lambda pairs: all([is_valid_match(o, c) for o, c in pairs])
 
