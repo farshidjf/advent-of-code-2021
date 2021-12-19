@@ -1,5 +1,5 @@
-
 import functools
+from itertools import permutations
 import re
 
 def find_left(x: str) -> tuple[bool, int, int]:
@@ -58,14 +58,6 @@ _magnitude = lambda x: x if type(x) == int else 3 * _magnitude(x[0]) + 2 * _magn
 magnitude = lambda x: _magnitude(eval(x))
 add = lambda x, y: reduce(f'[{x},{y}]')
 
-def find_largest_sum(numbers: list[str]) -> int:
-      largest_sum = 0
-      for n1 in numbers:
-            for n2 in numbers:
-                  if n1 != n2:
-                        largest_sum = max(largest_sum, magnitude(add(n1, n2)))
-      return largest_sum
-
 file_names = ['test_input', 'main_input']
 folder_name = './Day18/'
 for file_name in file_names[:]:
@@ -73,4 +65,5 @@ for file_name in file_names[:]:
             snail_numbers: list[str] = [line.strip() for line in input_file.readlines()]
             total = functools.reduce(add, snail_numbers)
             print(f'Puzzle 1 for {file_name}: {magnitude(total)}')
-            print(f'Puzzle 2 for {file_name}: {find_largest_sum(snail_numbers)}')
+            largest_sum = max(magnitude(add(n1, n2)) for n1, n2 in permutations(snail_numbers, 2))
+            print(f'Puzzle 2 for {file_name}: {largest_sum}')
